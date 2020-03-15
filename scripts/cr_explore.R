@@ -230,5 +230,5 @@ table(mydata_df$occupation_0,mydata_df$occup_cat,exclude = NULL)
 
 # Convert to factor and set labels
 mydata_df$occup_cat=factor(mydata_df$occup_cat,levels = c(1,2,3,4), 
-                             labels = c("formal","informal low risk","informal high risk","other/no job"))
+                             labels = c("formal","informal_L/risk","informal_H/risk","other/no_job"))
 
