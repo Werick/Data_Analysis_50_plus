@@ -127,7 +127,7 @@ mydata_df %>%
 # Convert to factor and add the labels
 mydata_df$marital_status <- as.numeric(trimws(mydata_df$marital_status))
 mydata_df$marital_status=factor(mydata_df$marital_status,levels = c(1,2,3,4), 
-                          labels = c("Single","Married","Widowed/Divorced/Separated","Polygamous Marriage"))
+                          labels = c("Single","Married","W/D/W","Polygamy"))
 
 table(mydata_df$marital_status,exclude = NULL)
 
