@@ -5,6 +5,7 @@
 # Load the required libraries
 library(gmodels)
 library(dplyr)
+library(finalfit)
 
 #Check Association with gender
 CrossTable(table(mydata_df$missing_hiv,mydata_df$sex_0),
@@ -112,3 +113,25 @@ CrossTable(table(mydata_df$missing_hiv,mydata_df$region_name),
 
 #Strong association with Region chisq = 57.57 p<0.001
 # Majority missing were more likely from Western Uganda
+
+
+# USing the final finalfit library with missing compare function
+# See https://cran.r-project.org/web/packages/finalfit/vignettes/missing.html
+
+explanatory = c("resident_0", "sex_0", "educat_cat2", "occup_cat","age_cat2", "mobile_0","marital_status",
+                "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0")
+dependent = "hiv_0"
+
+mydata_df$missing_hiv <- factor(mydata_df$missing_hiv,levels = c(0,1), labels = c("Missing","Not missing"))
+
+
+#To generate the compare table, u need to run first missing_pair then followed by missing_compare
+#shown below
+#This is somehow complex so using the CrossTable is more palatable/easy than using method.
+#Even though this quick if works for you.
+mydata_df %>%
+  missing_pairs(dependent, explanatory)
+
+mydata_df %>% 
+  missing_compare(dependent, explanatory) %>% 
+  knitr::kable(row.names=FALSE, align = c("l", "l", "r", "r", "r")) # Omit when you run
