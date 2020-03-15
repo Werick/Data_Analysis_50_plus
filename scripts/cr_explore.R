@@ -232,3 +232,6 @@ table(mydata_df$occupation_0,mydata_df$occup_cat,exclude = NULL)
 mydata_df$occup_cat=factor(mydata_df$occup_cat,levels = c(1,2,3,4), 
                              labels = c("formal","informal_L/risk","informal_H/risk","other/no_job"))
 
+# Convert mobility to factor and set labels
+mydata_df$mobile_0 <- factor(mydata_df$mobile_0,levels = c(0,1), labels = c("No","Yes"))
+
