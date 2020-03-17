@@ -7,7 +7,9 @@ library(gmodels)
 library(dplyr)
 library(finalfit)
 
-#Check Association with gender
+#Cross tabs can be done as shown below, but using the loop is super cool coz you end up with
+# a very short block of code 
+# Check Association with gender
 CrossTable(table(mydata_df$missing_hiv,mydata_df$sex_0),
            prop.r = TRUE, #add prop by row
            prop.c=TRUE, #add prop by column
@@ -18,98 +20,6 @@ CrossTable(table(mydata_df$missing_hiv,mydata_df$sex_0),
 
 # strong Association with gender/sex chisq = 46.01 p <0.001
 
-#Check Association with age group
-CrossTable(table(mydata_df$missing_hiv,mydata_df$age_cat2),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition btwn gender and educ
-           format = "SPSS")
-
-# Strong Association with age group chisq = 9.94 p = 0.007
-
-#Check Association with marital status
-CrossTable(table(mydata_df$missing_hiv,mydata_df$marital_status),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with marital status
-           format = "SPSS")
-
-# Strong Association with Marital status chisq = 47.32 p < 0.001
-
-
-#Check Association with Education
-CrossTable(table(mydata_df$missing_hiv,mydata_df$educat_cat2),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           format = "SPSS")
-
-# Strong Association with Education level chisq = 142.81 p < 0.001
-# people with primary educ were more likely to miss on HIV testing
-
-#Check Association with those who had previously tested
-CrossTable(table(mydata_df$missing_hiv,mydata_df$self_hivtest_0),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           format = "SPSS")
-# Strong Association with those who had previously tested chisq = 1016.16 p < 0.001
-# people had not previously tested for HIV more likely to miss on HIV testing
-
-
-#Check Association with type of occupation
-CrossTable(table(mydata_df$missing_hiv,mydata_df$occup_cat),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           digits = 2, #Number of digits after the decimal point for cell proportions
-           format = "SPSS" )
-
-# Strong Association with occupation chisq = 194.68 p < 0.001
-# Informal Low risk occup more likely to miss hiv status
-
-
-#Check Association with HH wealth Index
-CrossTable(table(mydata_df$missing_hiv,mydata_df$wealth_0),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           digits = 2, #Number of digits after the decimal point for cell proportions
-           format = "SPSS" )
-#Strong Association with HH wealth Index chisq = 18.71, p=0.001
-
-#Check Association with Mobility
-CrossTable(table(mydata_df$missing_hiv,mydata_df$mobile_0),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           digits = 2, #Number of digits after the decimal point for cell proportions
-           format = "SPSS" )
-# No assocaition with Mobility
-
-#Check Association with region
-CrossTable(table(mydata_df$missing_hiv,mydata_df$region_name),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           digits = 2, #Number of digits after the decimal point for cell proportions
-           format = "SPSS" )
 
 #Strong association with Region chisq = 57.57 p<0.001
 # Majority missing were more likely from Western Uganda
@@ -122,12 +32,12 @@ explanatory = c("resident_0", "sex_0", "educat_cat2", "occup_cat","age_cat2", "m
                 "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0")
 dependent = "hiv_0"
 
-mydata_df$missing_hiv <- factor(mydata_df$missing_hiv,levels = c(0,1), labels = c("Missing","Not missing"))
+mydata_df$missing_hiv <- factor(mydata_df$missing_hiv,levels = c(0,1), labels = c("Not Missing","Missing"))
 
 
 #To generate the compare table, u need to run first missing_pair then followed by missing_compare
 #shown below
-#This is somehow complex so using the CrossTable is more palatable/easy than using method.
+#This is somehow complex so using the CrossTable is more palatable/easy than using this method.
 #Even though this quick if works for you.
 mydata_df %>%
   missing_pairs(dependent, explanatory)
@@ -135,3 +45,17 @@ mydata_df %>%
 mydata_df %>% 
   missing_compare(dependent, explanatory) %>% 
   knitr::kable(row.names=FALSE, align = c("l", "l", "r", "r", "r")) # Omit when you run
+
+
+# Using for loop to generate the cross tables, but rem u have to create a vector with th cols of interest
+for(i in explanatory) {
+  print(paste("Cross table for: ",i))
+  CrossTable(table(mydata_df[[i]],mydata_df$missing_hiv),
+             prop.r = TRUE, #add prop by row
+             prop.c=TRUE, #add prop by column
+             prop.t=FALSE, #remove prop by row
+             prop.chisq=FALSE, #remove chisq contribution
+             chisq=TRUE, #add chisq to display assocition with education
+             digits = 1, #Number of digits after the decimal point for cell proportions
+             format = "SPSS" )
+}
