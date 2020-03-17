@@ -24,7 +24,7 @@ g1 <- ggplot(d, aes(x = age_cat3, y = total_pop, fill = sex_0)) +
   scale_fill_brewer(palette = "Set1") + 
   theme_bw()+
   #theme(legend.position="top") +
-  labs(y="Population", title = "Polulation Pyramid for SEARCH Participants, >=50 Years",
+  labs(y="Population", title = "Polulation Pyramid for SEARCH Participants, >=50 Years n=35,275",
        x="Age Category")
 
 g1
