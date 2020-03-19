@@ -29,15 +29,18 @@ mydata_df$missing_hiv <- as.factor(mydata_df$missing_hiv)
 mydata_df$resident_0 <- as.factor(mydata_df$resident_0)
 
 an_mydata_df <- mydata_df %>%
-  filter(!is.na(hiv_0)) #Drop all participants missing HIV status in the final analysis
+  filter(!is.na(hiv_0), !is.na(sex_0)) #Drop all participants missing HIV status in the final analysis and gender
 
+# Add labels to test_location
+an_mydata_df$test_location_0 <- factor(an_mydata_df$test_location_0, levels = c(0,1,2),
+                                       labels = c("Post-CHC","CHC","Clinic"))
 
 #Examine with ff_glimpse - This shows the various levels for factor variables and missing % for each var
 
 # This has been done for convience to capture only variables of interest, otherwise ff_glimse will
 # display the vars in your dataset if no param is passed to it
 explanatory = c("age_0","resident_0", "sex_0", "educat_cat2", "occup_cat","age_cat2", "mobile_0","marital_status",
-                "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0")
+                "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0","test_location_0")
 dependent = "hiv_0"
 
 an_mydata_df %>%
