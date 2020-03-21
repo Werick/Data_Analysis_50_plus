@@ -178,7 +178,7 @@ table(mydata_df$education_0, mydata_df$educat_cat2,exclude = NULL)
 
 # Convert to factor and set labels
 mydata_df$educat_cat2=factor(mydata_df$educat_cat2,levels = c(1,2,3), 
-                                labels = c("No School","Primay","Secondary or Higher"))
+                                labels = c("No School","Primary","Secondary or Higher"))
 
 
 # Create vr occup_cat
@@ -212,7 +212,7 @@ mydata_df$educat_cat2=factor(mydata_df$educat_cat2,levels = c(1,2,3),
 # 1 ==> formal (student, teacher, government worker, military worker, health worker, factory worker), 
 # 2 ==> informal low risk (Farmer, shopkeeper, market vendor, hotel worker, household worker, construction worker, Manual Labor, mining), 
 # 3 ==> informal high risk (fisherman, bar owner, bar worker, truck/taxi/motorcycle/bike/boat drivers, tourism),   
-# 4 ==> other/no job
+# 4 ==> other
 # 
 # 
 # *******************************************************************************/
@@ -221,17 +221,21 @@ mydata_df$educat_cat2=factor(mydata_df$educat_cat2,levels = c(1,2,3),
 # recode occup_cat 18/19=4  20=4 77=4 8/11=1 14=1 16=1 1=2 3=2 6=2 12=2 13=2 15=2 17=2 21=2 2=3 4/5=3 7=3
 
 mydata_df <- mydata_df %>%
-  mutate(occup_cat = ifelse(occupation_0 %in% c(18:20,77),4,
-                            ifelse(occupation_0 %in% c(8:11,14,16),1,
-                                   ifelse(occupation_0 %in% c(1,3,6,12:13,15,17,21),2,
-                                          ifelse(occupation_0 %in% c(2,4:5,7),3,NA)))))
+  mutate(occup_cat = ifelse(occupation_0 %in% c(12,18:19),1,
+                        ifelse(occupation_0 %in% c(20,77),5,
+                            ifelse(occupation_0 %in% c(8:11,14,16),2,
+                                   ifelse(occupation_0 %in% c(1,3,6,13,15,17,21),3,
+                                          ifelse(occupation_0 %in% c(2,4:5,7),4,NA))))))
 
 table(mydata_df$occupation_0,mydata_df$occup_cat,exclude = NULL)
 
 # Convert to factor and set labels
-mydata_df$occup_cat=factor(mydata_df$occup_cat,levels = c(1,2,3,4), 
-                             labels = c("formal","informal_L/risk","informal_H/risk","other/no_job"))
+mydata_df$occup_cat=factor(mydata_df$occup_cat,levels = c(1,2,3,4,5), 
+                             labels = c("No Job","formal","informal_L/risk","informal_H/risk","other"))
 
 # Convert mobility to factor and set labels
 mydata_df$mobile_0 <- factor(mydata_df$mobile_0,levels = c(0,1), labels = c("No","Yes"))
+
+# Convert alcohole to factor and set labels
+mydata_df$alcohol_0 <- factor(mydata_df$alcohol_0,levels = c(0,1), labels = c("No","Yes"))
 
