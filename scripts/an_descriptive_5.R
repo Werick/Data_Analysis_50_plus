@@ -23,7 +23,7 @@ occup <- mydata_df$occup_cat
 marital <- mydata_df$marital_status
 previous_hiv_test <- mydata_df$self_hivtest_0
 mydata_df$alcohol_0 <- as.factor(mydata_df$alcohol_0)
-circum <- mydata_df$circumcision_0
+circum <- mydata_df$non_circum_0
 region <- mydata_df$region_name
 mydata_df$missing_hiv <- as.factor(mydata_df$missing_hiv)
 mydata_df$resident_0 <- as.factor(mydata_df$resident_0)
@@ -40,7 +40,7 @@ an_mydata_df$test_location_0 <- factor(an_mydata_df$test_location_0, levels = c(
 # This has been done for convience to capture only variables of interest, otherwise ff_glimse will
 # display the vars in your dataset if no param is passed to it
 explanatory = c("age_0","resident_0", "sex_0", "educat_cat2", "occup_cat","age_cat2", "mobile_0","marital_status",
-                "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0","test_location_0")
+                "alcohol_0","non_circum_0","region_name","wealth_0","self_hivtest_0","test_location_0")
 dependent = "hiv_0"
 
 an_mydata_df %>%
@@ -57,6 +57,26 @@ an_mydata_df %>%
 #display t
 t
 
+#Stratified by Gender
+explanatory = c("resident_0", "educat_cat2", "occup_cat","age_cat2", "mobile_0","marital_status",
+                "alcohol_0","non_circum_0","region_name","wealth_0","self_hivtest_0","test_location_0")
+
+
+for (i in explanatory) {
+  print(paste("Two table for sex and ",i))
+  CrossTable(table(an_mydata_df[[i]], an_mydata_df$sex_0),
+             prop.r = TRUE, #add prop by row
+             prop.c=TRUE, #add prop by column
+             prop.t=FALSE, #remove prop by row
+             prop.chisq=FALSE, #remove chisq contribution
+             chisq=TRUE, #add chisq to display assocition with education
+             digits = 1, #Number of digits after the decimal point for cell proportions
+             format = "SPSS" )
+  
+}
+
+
+
 #Workout HIV prevalence
 # The functions used in this section are from gmodels package
 #Ci.binom fuction requires that you outcone var is numeric and coded in Binary (0,1)
@@ -67,7 +87,7 @@ an_mydata_df$hiv<-apply(an_mydata_df, 1, convertHIVtoBinary)
 table(an_mydata_df$hiv_0,an_mydata_df$hiv) #check if the convesrion is well done
 
 #get the 95% CI and HIV prevalence for the whole population
-ci.binom(an_mydata_df$hiv)
+round(ci.binom(an_mydata_df$hiv),4)*100
 
 
 #Cross check using cross tab
@@ -87,11 +107,16 @@ for (i in sex){
   prev_male <- an_mydata_df %>%
     select(sex_0,hiv)  %>%
     filter(sex_0 == i) 
-  t <- ci.binom(prev_male$hiv)
+  t <- round(ci.binom(prev_male$hiv),4)*100 # present the values as %
   print(t)
 }
 
+#Check if the prevelance of HIV in female = prevalance of HIV i male (h0=0)
+prop.test(table(an_mydata_df$sex_0,an_mydata_df$hiv))
 
+
+#Prevalance of HIV among Circumcised and Uncircumcised men
+prop.test(table(an_mydata_df$non_circum_0,an_mydata_df$hiv))
 
 # Print the two way table
 CrossTable(table(an_mydata_df$region_name,an_mydata_df$hiv_0),
@@ -110,7 +135,7 @@ for (i in region){
   prev_eug <- an_mydata_df %>%
     select(region_name,hiv)  %>%
     filter(region_name == i) 
-  t <- ci.binom(prev_eug$hiv)
+  t <- round(ci.binom(prev_eug$hiv),4)*100
   print(t)
 }
 
@@ -132,7 +157,7 @@ for (i in agegrp){
   prev_eug <- an_mydata_df %>%
     select(age_cat2,hiv)  %>%
     filter(age_cat2 == i) 
-  t <- ci.binom(prev_eug$hiv)
+  t <- round(ci.binom(prev_eug$hiv),4)*100
   print(t)
 }
 
