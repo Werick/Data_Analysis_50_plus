@@ -28,6 +28,140 @@ an_mydata_df$wealth_0 <- relevel(an_mydata_df$wealth_0, ref = "4")
 
 
 
+explanatory = c("age_cat2","region_name", "marital_status","educat_cat2", "occup_cat", "wealth_0",
+                "mobile_0","alcohol_0","self_hivtest_0")
+
+
+# Univariable Analysis stratfied by gender/sex
+# It would be easy to use the for loop here but unfornately no results are being displayed
+# this has to be done one by one. Very painful indeed
+# Female 
+
+# This model throw this error :
+# Error in model.frame.default(formula = hiv ~ i, data = an_mydata_df, subset = sex_0 ==  : 
+#                                variable lengths differ (found for 'i')
+# This is resolved using the paste fuction as shown below.
+
+print(paste("ORs for: ",explanatory[1],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[1]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[2],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[2]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[3],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[3]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[4],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[4]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[5],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[5]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[6],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[6]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[7],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[7]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[8],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[8]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[9],"for Female Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[9]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+# Male 
+explanatory = c("region_name","age_cat2", "marital_status","educat_cat2", "occup_cat", "wealth_0",
+                "mobile_0","alcohol_0","non_circum_0","self_hivtest_0")
+
+
+print(paste("ORs for: ",explanatory[1],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[1]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[2],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[2]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[3],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[3]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[4],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[4]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[5],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[5]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[6],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[6]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[7],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[7]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[8],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[8]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[9],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[9]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+print(paste("ORs for: ",explanatory[10],"for Male Strata"))
+lg_model <- glm(formula = paste("hiv ~", explanatory[10]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
+summary(lg_model)
+round(exp(coef(lg_model)),2)
+round(exp(confint.default(lg_model)),2)
+
+
 
 # Build the model using forward stepwise by adding variables that showed very strong association
 # with HIV infection
@@ -75,39 +209,6 @@ exp(confint(lg_model2))
 exp(lg_model2$coefficients)
 
 
-
-explanatory = c("region_name","age_cat2", "marital_status","educat_cat2", "occup_cat", "wealth_0",
-                "mobile_0","alcohol_0","self_hivtest_0")
-
-
-# Univariable Analysis stratfied by gender/sex
-# It would be easy to use the for loop here but unfornately no results are being displayed
-# this has to be done one by one. Very painful indeed
-# Female 
-
-# This model throw this error :
-# Error in model.frame.default(formula = hiv ~ i, data = an_mydata_df, subset = sex_0 ==  : 
-#                                variable lengths differ (found for 'i')
-# This is resolved using the paste fuction as shown below.
-
-print(paste("ORs for: ",explanatory[1],"for Female Strata"))
-lg_model <- glm(formula = paste("hiv ~", explanatory[1]), family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female")
-#summary(lg_model)
-round(exp(coef(lg_model)),2)
-round(exp(confint(lg_model)),2)
-
-
-# Male 
-explanatory = c("region_name","age_cat2", "marital_status","educat_cat2", "occup_cat", "wealth_0",
-                "mobile_0","alcohol_0","non_circum_0","self_hivtest_0")
-
-print(paste("ORs for: ",i,"for Male Strata"))
-
-lg_model <- glm(formula = paste("hiv ~", i), family = binomial(link='logit'), 
-                data = an_mydata_df, subset = sex_0 == "Male")
-summary(lg_model)
-round(exp(coef(lg_model)),2)
-round(exp(confint(lg_model)),2)
 
 
 ################################################################################################
@@ -158,7 +259,7 @@ round(exp(confint.default(lg_model)),2)
 
 # Male
 lg_model <- glm(hiv ~ age_cat2 + marital_status + educat_cat2 +  self_hivtest_0 +
-                  region_name + occup_cat + alcohol_0 + mobile_0 + wealth_0, 
+                  region_name + occup_cat + alcohol_0 + mobile_0 + wealth_0 + non_circum_0, 
                 family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Male")
 summary(lg_model)
 
