@@ -16,6 +16,8 @@ library(dplyr) #Library to explore data
 an_mydata_df <- mydata_df %>%
   filter(!is.na(hiv_0), !is.na(sex_0)) #Drop all participants missing HIV status in the final analysis and gender
 
+an_mydata_df$hiv_0 <- as.factor(an_mydata_df$hiv_0)
+
 # Add labels to test_location
 an_mydata_df$test_location_0 <- factor(an_mydata_df$test_location_0, levels = c(0,1,2),
                                        labels = c("Post-CHC","CHC","Clinic"))
