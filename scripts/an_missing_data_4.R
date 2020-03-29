@@ -29,7 +29,7 @@ CrossTable(table(mydata_df$missing_hiv,mydata_df$sex_0),
 # See https://cran.r-project.org/web/packages/finalfit/vignettes/missing.html
 
 explanatory = c("resident_0", "sex_0", "educat_cat2", "occup_cat","age_cat2", "mobile_0","marital_status",
-                "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0")
+                "alcohol_0","circumcision_0","region_name","wealth_0","self_hivtest_0", "test_location_0")
 dependent = "hiv_0"
 
 mydata_df$missing_hiv <- factor(mydata_df$missing_hiv,levels = c(0,1), labels = c("Not Missing","Missing"))
