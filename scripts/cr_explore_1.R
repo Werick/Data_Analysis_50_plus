@@ -236,6 +236,16 @@ mydata_df$occup_cat=factor(mydata_df$occup_cat,levels = c(1,2,3,4,5),
 # Convert mobility to factor and set labels
 mydata_df$mobile_0 <- factor(mydata_df$mobile_0,levels = c(0,1), labels = c("No","Yes"))
 
-# Convert alcohole to factor and set labels
+# Convert alcohol to factor and set labels
 mydata_df$alcohol_0 <- factor(mydata_df$alcohol_0,levels = c(0,1), labels = c("No","Yes"))
+
+# Convert non_circumcised to factor and set labels
+mydata_df$non_circum_0 <- factor(mydata_df$non_circum_0,levels = c(0,1), labels = c("No","Yes"))
+
+# Convert resident to factor and set labels
+mydata_df$resident_0 <- factor(mydata_df$resident_0,levels = c(0,1), labels = c("No","Yes"))
+
+# Add labels to test_location
+an_mydata_df$test_location_0 <- factor(an_mydata_df$test_location_0, levels = c(0,1,2),
+                                       labels = c("Post-CHC","CHC","Clinic"))
 
