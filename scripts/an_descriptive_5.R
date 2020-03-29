@@ -12,21 +12,6 @@ library(dplyr) #Library to explore data
 
 #Load data
 # Load the data
-sex <- mydata_df$sex_0
-age <- mydata_df$age_0
-agegrp <- mydata_df$age_cat2
-mobility <- mydata_df$mobile_0
-mydata_df$hiv_0 <- as.factor(mydata_df$hiv_0)
-hh_w_index <- mydata_df$wealth_0
-educ <- mydata_df$educat_cat2
-occup <- mydata_df$occup_cat
-marital <- mydata_df$marital_status
-previous_hiv_test <- mydata_df$self_hivtest_0
-mydata_df$alcohol_0 <- as.factor(mydata_df$alcohol_0)
-circum <- mydata_df$non_circum_0
-region <- mydata_df$region_name
-mydata_df$missing_hiv <- as.factor(mydata_df$missing_hiv)
-mydata_df$resident_0 <- as.factor(mydata_df$resident_0)
 
 an_mydata_df <- mydata_df %>%
   filter(!is.na(hiv_0), !is.na(sex_0)) #Drop all participants missing HIV status in the final analysis and gender
@@ -77,9 +62,12 @@ for (i in explanatory) {
 
 
 
-#Workout HIV prevalence
+# Workout HIV prevalence for category of the predictor
+explanatory = c("resident_0", "sex_0", "educat_cat2", "occup_cat","age_cat2", "mobile_0","marital_status",
+                "alcohol_0","non_circum_0","region_name","wealth_0","self_hivtest_0","test_location_0")
+
 # The functions used in this section are from gmodels package
-#Ci.binom fuction requires that you outcone var is numeric and coded in Binary (0,1)
+#Ci.binom fuction requires that you outcome var is numeric and coded in Binary (0,1)
 convertHIVtoBinary <- function(x){
   return(ifelse(x['hiv_0']==0,0,1))
 }
@@ -100,65 +88,26 @@ CrossTable(table(an_mydata_df$sex_0,an_mydata_df$hiv),
            digits = 1, #Number of digits after the decimal point for cell proportions
            format = "SPSS" )
 
-#get the 95% CI and HIV prevalence by Gender
-sex <- levels(an_mydata_df$sex_0)
-for (i in sex){
-  print(paste("HIV Prevalance by Sex :", i))
-  prev_male <- an_mydata_df %>%
-    select(sex_0,hiv)  %>%
-    filter(sex_0 == i) 
-  t <- round(ci.binom(prev_male$hiv),4)*100 # present the values as %
-  print(t)
-}
-
-#Check if the prevelance of HIV in female = prevalance of HIV i male (h0=0)
-prop.test(table(an_mydata_df$sex_0,an_mydata_df$hiv))
 
 
-#Prevalance of HIV among Circumcised and Uncircumcised men
-prop.test(table(an_mydata_df$non_circum_0,an_mydata_df$hiv))
-
-# Print the two way table
-CrossTable(table(an_mydata_df$region_name,an_mydata_df$hiv_0),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           digits = 1, #Number of digits after the decimal point for cell proportions
-           format = "SPSS" )
-
-#get the 95% CI and HIV prevalence by Region
-region <- levels(an_mydata_df$region_name)
-for (i in region){
-  print(paste("HIV Prevalance by Region :", i))
-  prev_eug <- an_mydata_df %>%
-    select(region_name,hiv)  %>%
-    filter(region_name == i) 
-  t <- round(ci.binom(prev_eug$hiv),4)*100
-  print(t)
-}
-
-
-CrossTable(table(an_mydata_df$age_cat2,an_mydata_df$hiv),
-           prop.r = TRUE, #add prop by row
-           prop.c=TRUE, #add prop by column
-           prop.t=FALSE, #remove prop by row
-           prop.chisq=FALSE, #remove chisq contribution
-           chisq=TRUE, #add chisq to display assocition with education
-           digits = 1, #Number of digits after the decimal point for cell proportions
-           format = "SPSS" )
-
-
-#get the 95% CI and HIV prevalence by Age_group
-agegrp <- levels(an_mydata_df$age_cat2)
-for (i in agegrp){
-  print(paste("HIV Prevalance by Age Group :", i))
-  prev_eug <- an_mydata_df %>%
-    select(age_cat2,hiv)  %>%
-    filter(age_cat2 == i) 
-  t <- round(ci.binom(prev_eug$hiv),4)*100
-  print(t)
+for (i in explanatory) {
+  print(paste("Get HIV Prevalence for predictor: ",i))
+  
+  #get the 95% CI and HIV prevalence by Gender
+  predictor_x <- levels(an_mydata_df[[i]])
+  
+ 
+  for (x in predictor_x){
+    print(paste("HIV Prevalance for : ",i,"_", x))
+    hiv_prevalence <- an_mydata_df[,c(i,"hiv")] #This method works as select had failed to work for some factor variables
+    hiv_prevalence <- hiv_prevalence %>%
+      # select(an_mydata_df[[i]],hiv)  %>%
+      filter(an_mydata_df[[i]] == x) 
+    t <- round(ci.binom(hiv_prevalence$hiv),4)*100 # present the values as %
+    print(t)
+  }
+  
+  
 }
 
 
