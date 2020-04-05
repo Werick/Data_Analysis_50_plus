@@ -35,7 +35,7 @@ testImplications <- function( covariance.matrix, sample.size ){
   
 }
 
-# Dagitty Code. Copy and Paste in DAGitty to Generate the DAG in DAGitty
+# DAGitty Code. Copy and Paste in DAGitty to Generate the DAG in DAGitty
 dag {
   bb="0,0,1,1"
   "Age Group" [exposure,pos="0.269,0.385"]
@@ -44,14 +44,15 @@ dag {
   "HIV infection" [outcome,pos="0.871,0.374"]
   "Marital Status" [pos="0.269,0.762"]
   Alcohol [pos="0.532,0.494"]
-  Mobility [pos="0.668,0.216"]
-  Occupation [pos="0.535,0.249"]
-  Region [pos="0.536,0.037"]
+  Mobility [pos="0.584,0.327"]
+  Occupation [pos="0.522,0.184"]
+  "Age Group" -> "Education Level"
   "Age Group" -> "HIV infection"
   "Age Group" -> "Marital Status"
   "Age Group" -> Alcohol
+  "Age Group" -> Mobility
   "Age Group" -> Occupation
-  "Education Level" -> "HH Wealth Index"
+  "Education Level" -> "HH Wealth Index" [pos="0.464,0.089"]
   "Education Level" -> Occupation
   "HH Wealth Index" -> "HIV infection"
   "Marital Status" -> "HIV infection"
@@ -59,7 +60,4 @@ dag {
   Mobility -> "HIV infection"
   Occupation -> "HH Wealth Index"
   Occupation -> "HIV infection"
-  Occupation -> Mobility
-  Region -> "HH Wealth Index"
-  Region -> "HIV infection"
 }
