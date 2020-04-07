@@ -20,3 +20,20 @@ tab <- cbind(Est = fixef(mod1), LL = fixef(mod1) - 1.96 * se, UL = fixef(mod1) +
 
 # wanted odds ratios instead of coefficients on the logit scale
 exp(tab)
+
+mod2 <- glmer(hiv ~ age_cat2 + marital_status + educat_cat2 +  
+                occup_cat + alcohol_0 + mobile_0  +(1 | region_name),
+              family = binomial(link='logit'), data = an_mydata_df, subset = sex_0 == "Female", 
+              control = glmerControl(optimizer = "bobyqa"),nAGQ = 10)
+
+#alternatively
+summary(mod2)
+
+
+# confidence intervals (CIs). We can get rough estimates using the SEs
+se <- sqrt(diag(vcov(mod2)))
+# table of estimates with 95% CI
+tab2 <- cbind(Est = fixef(mod2), LL = fixef(mod2) - 1.96 * se, UL = fixef(mod2) + 1.96 *se)
+
+# wanted odds ratios instead of coefficients on the logit scale
+exp(tab2)
